@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "835808831338",
+    "project_id": "inprosur-e8516",
+    "storage_bucket": "inprosur-e8516.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835808831338:android:ed298a3e3314d5aa552713",
+        "android_client_info": {
+          "package_name": "com.codded.inprosur_teach_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835808831338-0tjafp4bi2h0ptgt30dahvle4eebt4jl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codded.inprosur_teach_app",
+            "certificate_hash": "62057aa058f5d7ed947a22758221d0cb094176da"
+          }
+        },
+        {
+          "client_id": "835808831338-bglapbcdu7cecsq9rndmjj3ka7eehob6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUSlSipuSfdg3IO3h156JRALXE6WZDlYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835808831338-bglapbcdu7cecsq9rndmjj3ka7eehob6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "835808831338-8srup3qebph8ha39a5ltr3vl6a41i847.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.inprosurApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

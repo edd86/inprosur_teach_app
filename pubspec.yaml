@@ -1,0 +1,43 @@
+name: inprosur_teach_app
+description: "App for students to learn directly by teachers."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  animate_do: ^4.2.0
+  carousel_slider: ^5.0.0
+  dio: ^5.8.0+1
+  email_validator: ^3.0.0
+  firebase_auth: ^5.5.4
+  firebase_core: ^3.13.1
+  flex_color_scheme: ^8.2.0
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.2.1
+  flutter_riverpod: ^2.6.1
+  flutter_svg: ^2.1.0
+  google_fonts: ^6.2.1
+  google_sign_in: ^6.3.0
+  sizer: ^3.0.5
+  url_launcher: ^6.3.1
+  youtube_player_flutter: ^9.1.1
+  youtube_player_iframe: ^5.2.1
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/imgs/
+    - assets/svg/
+    - assets/fonts/
