@@ -88,6 +88,15 @@ class HomePage extends ConsumerWidget {
               }
             },
           ),
+          userLogued != null
+              ? IconButton(
+                  icon: Badge(
+                    label: Text('3'),
+                    child: Icon(Icons.notifications_none_rounded),
+                  ),
+                  onPressed: () {},
+                )
+              : SizedBox(),
         ],
       ),
       body: degreeAsync.when(
