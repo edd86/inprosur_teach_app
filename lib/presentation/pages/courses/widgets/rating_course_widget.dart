@@ -46,7 +46,12 @@ class _RatingCourseWidgetStare extends ConsumerState<RatingCourseWidget> {
           }),
         );
       },
-      error: (e, _) => Text('Error: $e'),
+      error: (e, _) => Row(
+        children: List.generate(
+          5,
+          (index) => Icon(Icons.star, color: Colors.grey, size: starSize),
+        ),
+      ),
       loading: () => Container(height: 3.h, color: Colors.black54),
     );
   }
