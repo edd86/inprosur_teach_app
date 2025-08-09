@@ -27,7 +27,23 @@ class CoursesHomeCard extends StatelessWidget {
                 topLeft: Radius.circular(15.sp),
                 topRight: Radius.circular(15.sp),
               ),
-              child: Image.asset('assets/img/error_horizontal.png'),
+              child: Center(
+                child: courseRanking != null
+                    ? Image.network(
+                        courseRanking!.thumbnailUrl!,
+                        height: 10.h,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset('assets/imgs/error_horizontal.png'),
+                      )
+                    : Image.network(
+                        courseEntity!.thumbnailUrl!,
+                        height: 10.h,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset('assets/imgs/error_horizontal.png'),
+                      ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 1.w),

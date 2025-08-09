@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inprosur_teach_app/core/utils/utils.dart';
+import 'package:inprosur_teach_app/presentation/pages/courses/widgets/personal_rating_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/rating_course_widget.dart';
 import 'package:inprosur_teach_app/presentation/providers/course_provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CoursePage extends ConsumerStatefulWidget {
   final int courseId;
-  final int instructorId;
-  const CoursePage({
-    required this.courseId,
-    required this.instructorId,
-    super.key,
-  });
+  const CoursePage({required this.courseId, super.key});
 
   @override
   ConsumerState<CoursePage> createState() => _CoursePageState();
@@ -20,105 +17,142 @@ class CoursePage extends ConsumerStatefulWidget {
 class _CoursePageState extends ConsumerState<CoursePage> {
   @override
   Widget build(BuildContext context) {
-    //TODO: Implementar la lógica para obtener al instructor del curso y todos sus valores; crear su entidad y modelo.
-    final courseAsync = ref.watch(courseProvider(widget.courseId));
-    return Scaffold(
-      appBar: AppBar(
-        title: courseAsync.when(
-          data: (course) => Text(
-            course.title,
+    final courseAsync = ref.watch(courseDetailsProvider(widget.courseId));
+
+    return courseAsync.when(
+      data: (courseDetails) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            courseDetails.title,
             style: TextStyle(
-              fontSize: course.title.length >= 25 ? 16.sp : 17.5.sp,
+              fontSize: courseDetails.title.length >= 25 ? 16.sp : 17.5.sp,
             ),
-            maxLines: 2,
           ),
-          error: (e, _) => Text('Error'),
-          loading: () => SizedBox.shrink(),
+          centerTitle: true,
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.app_registration)),
+          ],
         ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsetsGeometry.fromLTRB(3.w, .5.h, 3.w, 0),
-        child: Column(
-          children: [
-            courseAsync.when(
-              data: (course) => Image.network(
-                course.thumbnailUrl!,
-                height: 20.h,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/img/error_horizontal.png');
-                },
-              ),
-              error: (e, _) => Text('Error: $e'),
-              loading: () => Container(
-                height: 20.h,
-                color: Colors.black54,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            ),
-            SizedBox(height: 0.5.h),
-            SizedBox(
-              height: 10.h,
-              child: Center(
-                child: courseAsync.when(
-                  data: (course) => Text(course.description),
-                  error: (e, _) => Text('Error: e'),
-                  loading: () => SizedBox(),
+        body: Padding(
+          padding: EdgeInsetsGeometry.fromLTRB(3.w, .5.h, 3.w, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(courseDetails.thumbnailUrl, height: 20.h),
+              SizedBox(height: 0.5.h),
+              SizedBox(
+                width: 100.w,
+                height: 10.h,
+                child: Center(
+                  child: Text(
+                    courseDetails.description,
+                    textAlign: TextAlign.center,
+                    maxLines: 4,
+                    style: TextStyle(fontSize: 14.5.sp),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 0.5.h),
-            SizedBox(
-              height: 5.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  courseAsync.when(
-                    data: (course) => SizedBox(
+              SizedBox(height: 0.5.h),
+              SizedBox(
+                height: 5.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
                       width: 40.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(Icons.attach_money_outlined),
-                          Text('${course.price.toString()} bs.'),
+                          Icon(Icons.attach_money),
+                          Text('${courseDetails.price.toString()} bs.'),
                         ],
                       ),
                     ),
-                    error: (e, _) => Text('Error: e'),
-                    loading: () => SizedBox(),
-                  ),
-                  courseAsync.when(
-                    data: (course) => SizedBox(
+                    SizedBox(
                       width: 40.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Icon(Icons.watch_later_outlined),
-                          Text(
-                            '${course.duration.hour}:${course.duration.minute < 10 ? '0${course.duration.minute}' : course.duration.minute.toString()}',
-                          ),
+                          Text(Utils().timeToString(courseDetails.duration)),
                         ],
                       ),
                     ),
-                    error: (e, _) => Text('Error: e'),
-                    loading: () => SizedBox(),
+                  ],
+                ),
+              ),
+              SizedBox(height: .5.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Valoración: ',
+                    style: TextStyle(
+                      fontSize: 13.5.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  RatingCourseWidget(courseId: widget.courseId),
+                  Text(
+                    'Califica:',
+                    style: TextStyle(
+                      fontSize: 13.5.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  PersonalRatingWidget(courseId: widget.courseId),
                 ],
               ),
-            ),
-            SizedBox(height: 0.5.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Valoración:'),
-                RatingCourseWidget(courseId: widget.courseId),
-                Text('Califica:'),
-                RatingCourseWidget(courseId: widget.courseId),
-              ],
-            ),
-          ],
+              SizedBox(height: .5.h),
+              Card(
+                elevation: 2.5.sp,
+                child: SizedBox(
+                  height: 12.5.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50.sp),
+                        child: Image.network(courseDetails.photoInstructor),
+                      ),
+                      SizedBox(
+                        width: 60.w,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 0.7.h),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                courseDetails.instructor.name,
+                                style: TextStyle(
+                                  fontSize: 14.5.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8.h,
+                                child: Text(
+                                  courseDetails.instructor.biography,
+                                  style: TextStyle(fontSize: 12.5.sp),
+                                  maxLines: null,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      error: (e, _) => Center(child: Text('Error: $e')),
+      loading: () => Center(child: CircularProgressIndicator()),
     );
   }
 }
