@@ -27,7 +27,7 @@ class UserModel {
       password: json['password'],
       uId: json['uId'],
       photoUrl: json['photo'],
-      status: json['status'] == 1 ? true : false,
+      status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
     );
   }
