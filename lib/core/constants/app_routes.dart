@@ -35,11 +35,8 @@ class AppRoutes {
     }
     if (settings.name == AppRoutes.coursePage) {
       final courseId = settings.arguments as int;
-      final instructorId = settings.arguments as int;
-
       return MaterialPageRoute(
-        builder: (context) =>
-            CoursePage(courseId: courseId, instructorId: instructorId),
+        builder: (context) => CoursePage(courseId: courseId),
       );
     }
     return null;
