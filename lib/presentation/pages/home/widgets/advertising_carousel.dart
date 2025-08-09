@@ -89,7 +89,7 @@ class _AdvertisingCarouselState extends ConsumerState<AdvertisingCarousel> {
         ],
       ),
       error: (error, _) {
-        return Center(child: Text('Error: $error'));
+        return Center(child: SizedBox(child: Text('No hay anuncios')));
       },
       loading: () => SizedBox.shrink(),
     );
