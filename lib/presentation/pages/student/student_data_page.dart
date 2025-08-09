@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/constants/app_routes.dart';
 import 'package:inprosur_teach_app/core/constants/some_styles.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
 import 'package:inprosur_teach_app/data/repositories/student_repository_impl.dart';
 import 'package:inprosur_teach_app/domain/entities/student_entity.dart';
 import 'package:inprosur_teach_app/presentation/providers/manual_loading_provider.dart';
@@ -113,6 +114,7 @@ class _StudentDataPageState extends ConsumerState<StudentDataPage> {
                               ),
                             );
                         if (newStudent != null) {
+                          studentLogued = newStudent;
                           _showScaffoldMessage('Usuario Registrado');
                           _backToHome();
                         }

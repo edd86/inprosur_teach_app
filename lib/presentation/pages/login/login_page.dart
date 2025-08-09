@@ -80,6 +80,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             );
                           } else {
                             _navigate(AppRoutes.homePage);
+                            //TODO: studentLogued
                           }
                         }
                       } else {
@@ -94,7 +95,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       _showCustomMessage(
                         'No se pudo registrar: ${e.toString()}',
                       );
-                      print(e.toString());
                     } finally {
                       loadingNotifier.state = false;
                     }
