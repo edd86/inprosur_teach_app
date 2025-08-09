@@ -237,7 +237,7 @@ class HomePage extends ConsumerWidget {
           ),
         ),
         error: (error, _) {
-          return Center(child: Text('Error: $error'));
+          return Center(child: const SizedBox());
         },
         loading: () => SizedBox.shrink(),
       ),
