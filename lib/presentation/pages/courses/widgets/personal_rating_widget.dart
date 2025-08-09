@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sizer/sizer.dart';
 
 class PersonalRatingWidget extends ConsumerStatefulWidget {
-  const PersonalRatingWidget({super.key});
+  const PersonalRatingWidget({super.key, required this.courseId});
+  final int courseId;
 
   @override
   ConsumerState<PersonalRatingWidget> createState() =>
@@ -10,9 +12,26 @@ class PersonalRatingWidget extends ConsumerStatefulWidget {
 }
 
 class _PersonalRatingWidgetState extends ConsumerState<PersonalRatingWidget> {
-  //TODO: Icon Buttons for student to set a rating to the course.
+  int selectedStar = -1;
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final double starSize = 18.sp;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(5, (index) {
+        return GestureDetector(
+          child: Icon(
+            Icons.star,
+            size: starSize,
+            color: selectedStar >= index ? Colors.yellow : Colors.grey,
+          ),
+          onTap: () {
+            setState(() {
+              selectedStar = index;
+            });
+          },
+        );
+      }),
+    );
   }
 }
