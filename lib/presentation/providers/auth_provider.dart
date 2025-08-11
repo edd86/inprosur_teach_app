@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
+import 'package:inprosur_teach_app/data/repositories/student_repository_impl.dart';
 import 'package:inprosur_teach_app/data/repositories/user_repository_impl.dart';
 import 'package:inprosur_teach_app/domain/entities/user_entity.dart';
 
@@ -25,6 +27,9 @@ class AuthNotifier extends StateNotifier<UserEntity?> {
     if (currentUser != null) {
       final user = await UserRepositoryImpl().getUserByEmail(
         currentUser.email!,
+      );
+      studentLogued = await StudentRepositoryImpl().getStudentByUserId(
+        user.id!,
       );
       state = user;
     }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inprosur_teach_app/core/constants/app_routes.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
+import 'package:inprosur_teach_app/data/repositories/student_repository_impl.dart';
 import 'package:inprosur_teach_app/data/repositories/user_repository_impl.dart';
 import 'package:inprosur_teach_app/domain/entities/user_entity.dart';
 import 'package:inprosur_teach_app/presentation/providers/auth_provider.dart';
@@ -80,13 +82,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             );
                           } else {
                             _navigate(AppRoutes.homePage);
-                            //TODO: studentLogued
+                            studentLogued = await StudentRepositoryImpl()
+                                .getStudentByUserId(newUser.id!);
                           }
                         }
                       } else {
                         final user = await UserRepositoryImpl().getUserByEmail(
                           credential.user!.email!,
                         );
+                        studentLogued = await StudentRepositoryImpl()
+                            .getStudentByUserId(user.id!);
                         ref.read(authProvider.notifier).setUser(user);
                         _showCustomMessage('Sesión iniciada');
                         _navigate(AppRoutes.homePage);
