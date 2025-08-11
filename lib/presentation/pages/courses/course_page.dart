@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
+import 'package:inprosur_teach_app/presentation/pages/courses/widgets/course_content_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/personal_rating_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/rating_course_widget.dart';
 import 'package:inprosur_teach_app/presentation/providers/course_provider.dart';
@@ -29,9 +30,6 @@ class _CoursePageState extends ConsumerState<CoursePage> {
             ),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.app_registration)),
-          ],
         ),
         body: Padding(
           padding: EdgeInsetsGeometry.fromLTRB(3.w, .5.h, 3.w, 0),
@@ -42,13 +40,13 @@ class _CoursePageState extends ConsumerState<CoursePage> {
               SizedBox(height: 0.5.h),
               SizedBox(
                 width: 100.w,
-                height: 10.h,
+                height: 7.5.h,
                 child: Center(
                   child: Text(
                     courseDetails.description,
                     textAlign: TextAlign.center,
                     maxLines: 4,
-                    style: TextStyle(fontSize: 14.5.sp),
+                    style: TextStyle(fontSize: 13.5.sp),
                   ),
                 ),
               ),
@@ -146,6 +144,12 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                     ],
                   ),
                 ),
+              ),
+              Expanded(child: CourseContentWidget(courseId: widget.courseId)),
+              ElevatedButton.icon(
+                label: Text('COMPRAR CURSO'),
+                icon: Icon(Icons.sell),
+                onPressed: () {},
               ),
             ],
           ),
