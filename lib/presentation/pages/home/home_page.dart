@@ -137,6 +137,12 @@ class HomePage extends ConsumerWidget {
               ),
               SizedBox(height: 1.5.h),
               Text(
+                'Mis Cursos',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 17.h, width: double.infinity),
+              Text(
                 'Mejor Valorados',
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
