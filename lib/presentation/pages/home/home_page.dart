@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/constants/app_routes.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
 import 'package:inprosur_teach_app/data/repositories/course_repository_impl.dart';
+import 'package:inprosur_teach_app/presentation/pages/courses/course_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/home/widgets/advertising_carousel.dart';
 import 'package:inprosur_teach_app/presentation/providers/auth_provider.dart';
 import 'package:inprosur_teach_app/presentation/providers/degree_provider.dart';
@@ -169,12 +170,8 @@ class HomePage extends ConsumerWidget {
                               courseRanking: course,
                               key: ValueKey(index),
                             ),
-                            onTap: () async {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.coursePage,
-                                arguments: course.id,
-                              );
+                            onTap: () {
+                              _navigateToCoursePage(context, course.id);
                             },
                           ),
                         );
@@ -220,11 +217,7 @@ class HomePage extends ConsumerWidget {
                               key: ValueKey(index),
                             ),
                             onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.coursePage,
-                                arguments: course.id,
-                              );
+                              _navigateToCoursePage(context, course.id!);
                             },
                           ),
                         );
@@ -245,6 +238,30 @@ class HomePage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () => Navigator.pushNamed(context, AppRoutes.searchPage),
+      ),
+    );
+  }
+
+  void _navigateToCoursePage(BuildContext context, int id) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            CoursePage(courseId: id),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+          );
+        },
+        settings: RouteSettings(name: AppRoutes.coursePage, arguments: id),
       ),
     );
   }

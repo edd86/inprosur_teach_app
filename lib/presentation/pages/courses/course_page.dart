@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/course_content_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/personal_rating_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/rating_course_widget.dart';
@@ -80,26 +81,35 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                 ),
               ),
               SizedBox(height: .5.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Valoración: ',
-                    style: TextStyle(
-                      fontSize: 13.5.sp,
-                      fontWeight: FontWeight.bold,
+              SizedBox(
+                height: 5.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 15.w,
+                      child: Text(
+                        'Valoración Global: ',
+                        style: TextStyle(
+                          fontSize: 13.5.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  RatingCourseWidget(courseId: widget.courseId),
-                  Text(
-                    'Califica:',
-                    style: TextStyle(
-                      fontSize: 13.5.sp,
-                      fontWeight: FontWeight.bold,
+                    RatingCourseWidget(courseId: widget.courseId),
+                    SizedBox(
+                      width: 15.w,
+                      child: Text(
+                        'Califica este curso:',
+                        style: TextStyle(
+                          fontSize: 13.5.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  PersonalRatingWidget(courseId: widget.courseId),
-                ],
+                    PersonalRatingWidget(courseId: widget.courseId),
+                  ],
+                ),
               ),
               SizedBox(height: .5.h),
               Card(
@@ -146,10 +156,15 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                 ),
               ),
               Expanded(child: CourseContentWidget(courseId: widget.courseId)),
-              ElevatedButton.icon(
-                label: Text('COMPRAR CURSO'),
-                icon: Icon(Icons.sell),
-                onPressed: () {},
+              SizedBox(
+                width: 90.w,
+                child: ElevatedButton.icon(
+                  label: Text('COMPRAR CURSO'),
+                  icon: Icon(Icons.sell),
+                  onPressed: () {
+                    print(studentLogued!.id!);
+                  },
+                ),
               ),
             ],
           ),
