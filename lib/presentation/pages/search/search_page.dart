@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/presentation/providers/search_provider.dart';
-import 'package:inprosur_teach_app/presentation/widgets/custom_input_label.dart';
 import 'package:inprosur_teach_app/presentation/widgets/custom_list_tile.dart';
 import 'package:sizer/sizer.dart';
 
@@ -35,10 +34,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               keyboardType: TextInputType.webSearch,
               style: TextStyle(fontSize: 14.sp),
               decoration: InputDecoration(
-                label: CustomInputLabel(
-                  icon: Icons.search,
-                  label: 'Buscar curso, vídeo o documento',
-                ),
+                label: Text('Buscar curso, vídeo o documento'),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: _onSearch,

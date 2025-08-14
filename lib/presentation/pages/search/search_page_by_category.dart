@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/data/repositories/search_repository_impl.dart';
 import 'package:inprosur_teach_app/presentation/providers/search_content_by_category.dart';
-import 'package:inprosur_teach_app/presentation/widgets/custom_input_label.dart';
 import 'package:inprosur_teach_app/presentation/widgets/custom_list_tile.dart';
 import 'package:sizer/sizer.dart';
 
@@ -41,21 +40,24 @@ class _SearchPageByCategoryState extends ConsumerState<SearchPageByCategory> {
                 keyboardType: TextInputType.webSearch,
                 style: TextStyle(fontSize: 14.sp),
                 decoration: InputDecoration(
-                  label: CustomInputLabel(
-                    icon: Icons.search,
-                    label: 'Buscar curso, vídeo o documento',
-                  ),
+                  label: const Text('Buscar curso, vídeo o documento'),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
                       setState(() {
-                        word = _searchController.text.trim();
+                        word = _searchController.text.trim().isEmpty
+                            ? ''
+                            : _searchController.text.trim();
                       });
                     },
                   ),
                 ),
                 onSubmitted: (value) {
-                  // Implementa la búsqueda aquí
+                  setState(() {
+                    word = _searchController.text.trim().isEmpty
+                        ? ''
+                        : _searchController.text.trim();
+                  });
                 },
               ),
             ),
@@ -66,7 +68,7 @@ class _SearchPageByCategoryState extends ConsumerState<SearchPageByCategory> {
                 loading: () => Center(
                   child: Container(
                     height: 3.h,
-                    width: 82.5.w,
+                    width: 100.w,
                     color: const Color.fromARGB(137, 131, 131, 131),
                   ),
                 ),
@@ -124,7 +126,10 @@ class _SearchPageByCategoryState extends ConsumerState<SearchPageByCategory> {
                   }
                   if (selectedCategoryId == 0 && word.isEmpty) {
                     return Center(
-                      child: Text('Por favor, ingrese una búsqueda'),
+                      child: Text(
+                        'Por favor seleccione una categoria e ingrese una búsqueda',
+                        textAlign: TextAlign.center,
+                      ),
                     );
                   }
                   if (snapshot.hasError) {
