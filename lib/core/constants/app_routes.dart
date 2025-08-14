@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inprosur_teach_app/presentation/pages/buy/buy_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/course_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/home/home_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/login/login_page.dart';
@@ -13,6 +14,7 @@ class AppRoutes {
   static String searchPage = '/search';
   static String searchPageByCategory = '/searchByCategory';
   static String coursePage = '/coursePage';
+  static String buyPage = '/buyPage';
 
   static final Map<String, WidgetBuilder> routes = {
     homePage: (context) => HomePage(),
@@ -21,24 +23,33 @@ class AppRoutes {
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-    if (settings.name == AppRoutes.searchPageByCategory) {
-      final degreeId = settings.arguments as int?;
-      return MaterialPageRoute(
-        builder: (context) => SearchPageByCategory(degreeId: degreeId!),
-      );
+    switch (settings.name) {
+      case '/searchByCategory':
+        final degreeId = settings.arguments as int?;
+        return MaterialPageRoute(
+          builder: (context) => SearchPageByCategory(degreeId: degreeId!),
+        );
+
+      case '/studentData':
+        final id = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) => StudentDataPage(userId: id),
+        );
+
+      case '/coursePage':
+        final courseId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) => CoursePage(courseId: courseId),
+        );
+
+      case '/buyPage':
+        final courseId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) => BuyPage(courseId: courseId),
+        );
+
+      default:
+        return null;
     }
-    if (settings.name == AppRoutes.studentData) {
-      final id = settings.arguments as int;
-      return MaterialPageRoute(
-        builder: (context) => StudentDataPage(userId: id),
-      );
-    }
-    if (settings.name == AppRoutes.coursePage) {
-      final courseId = settings.arguments as int;
-      return MaterialPageRoute(
-        builder: (context) => CoursePage(courseId: courseId),
-      );
-    }
-    return null;
   }
 }
