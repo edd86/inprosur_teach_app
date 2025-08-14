@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inprosur_teach_app/core/constants/app_routes.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
-import 'package:inprosur_teach_app/core/variables/global_variables.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/course_content_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/personal_rating_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/rating_course_widget.dart';
@@ -20,6 +20,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
   @override
   Widget build(BuildContext context) {
     final courseAsync = ref.watch(courseDetailsProvider(widget.courseId));
+    final Size size = MediaQuery.of(context).size;
 
     return courseAsync.when(
       data: (courseDetails) => Scaffold(
@@ -41,7 +42,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
               SizedBox(height: 0.5.h),
               SizedBox(
                 width: 100.w,
-                height: 7.5.h,
+                height: 5.5.h,
                 child: Center(
                   child: Text(
                     courseDetails.description,
@@ -91,7 +92,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                       child: Text(
                         'Valoración Global: ',
                         style: TextStyle(
-                          fontSize: 13.5.sp,
+                          fontSize: size.width > 600 ? 13.5.sp : 12.5.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -102,7 +103,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                       child: Text(
                         'Califica este curso:',
                         style: TextStyle(
-                          fontSize: 13.5.sp,
+                          fontSize: size.width > 600 ? 13.5.sp : 12.5.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -162,7 +163,13 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                   label: Text('COMPRAR CURSO'),
                   icon: Icon(Icons.sell),
                   onPressed: () {
-                    print(studentLogued!.id!);
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.buyPage,
+                      arguments: widget.courseId,
+                    );
+
+                    //print(studentLogued!.id!);
                   },
                 ),
               ),

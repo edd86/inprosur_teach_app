@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inprosur_teach_app/data/repositories/lesson_repository_imp.dart';
 import 'package:inprosur_teach_app/domain/entities/lesson_entity.dart';
+import 'package:sizer/sizer.dart';
 
 class CourseContentWidget extends StatefulWidget {
   final int courseId;
@@ -28,9 +29,17 @@ class _CourseContentWidgetState extends State<CourseContentWidget> {
         return ListView.builder(
           itemCount: lessons.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(lessons[index].title),
-              subtitle: Text(lessons[index].description),
+            return ExpansionTile(
+              initiallyExpanded: false,
+              leading: Icon(Icons.school),
+              title: Text(
+                lessons[index].title,
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                lessons[index].description,
+                style: TextStyle(fontSize: 13.sp),
+              ),
             );
           },
         );
