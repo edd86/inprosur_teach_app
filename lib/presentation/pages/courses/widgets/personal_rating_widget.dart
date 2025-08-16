@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
+import 'package:inprosur_teach_app/data/repositories/student_repository_impl.dart';
+import 'package:inprosur_teach_app/presentation/widgets/warning_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 class PersonalRatingWidget extends ConsumerStatefulWidget {
@@ -25,13 +28,26 @@ class _PersonalRatingWidgetState extends ConsumerState<PersonalRatingWidget> {
             size: starSize,
             color: selectedStar >= index ? Colors.yellow : Colors.grey,
           ),
-          onTap: () {
-            setState(() {
-              selectedStar = index;
-            });
+          onTap: () async {
+            final validateEnrollment = await StudentRepositoryImpl()
+                .studentEnrolledInCourse(studentLogued!.id!, widget.courseId);
+            if (studentLogued != null && validateEnrollment.data) {
+              setState(() {
+                selectedStar = index;
+              });
+            } else {
+              _showWarning('No ha cursado este curso, no puede calificarlo');
+            }
           },
         );
       }),
+    );
+  }
+
+  void _showWarning(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => WarningDialog(message: message),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:inprosur_teach_app/core/utils/utils.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/course_content_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/personal_rating_widget.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/widgets/rating_course_widget.dart';
+import 'package:inprosur_teach_app/presentation/providers/auth_provider.dart';
 import 'package:inprosur_teach_app/presentation/providers/course_provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -135,7 +136,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                               Text(
                                 courseDetails.instructor.name,
                                 style: TextStyle(
-                                  fontSize: 14.5.sp,
+                                  fontSize: 13.5.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -143,7 +144,11 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                                 height: 8.h,
                                 child: Text(
                                   courseDetails.instructor.biography,
-                                  style: TextStyle(fontSize: 12.5.sp),
+                                  style: TextStyle(
+                                    fontSize: size.width > 600
+                                        ? 12.5.sp
+                                        : 11.5.sp,
+                                  ),
                                   maxLines: null,
                                   overflow: TextOverflow.fade,
                                 ),
@@ -163,13 +168,16 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                   label: Text('COMPRAR CURSO'),
                   icon: Icon(Icons.sell),
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.buyPage,
-                      arguments: widget.courseId,
-                    );
-
-                    //print(studentLogued!.id!);
+                    final userLogged = ref.watch(authProvider);
+                    if (userLogged == null) {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    } else {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.buyPage,
+                        arguments: widget.courseId,
+                      );
+                    }
                   },
                 ),
               ),
