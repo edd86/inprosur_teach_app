@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/constants/app_routes.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
+import 'package:inprosur_teach_app/core/variables/global_variables.dart';
 import 'package:inprosur_teach_app/data/repositories/course_repository_impl.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/course_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/home/widgets/advertising_carousel.dart';
@@ -136,12 +137,23 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               SizedBox(height: 1.5.h),
-              Text(
-                'Mis Cursos',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 17.h, width: double.infinity),
+              //TODO: complete the condition with enrrollments
+              (studentLogued != null)
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Mis Cursos',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 17.h, width: double.infinity),
+                      ],
+                    )
+                  : SizedBox(),
               Text(
                 'Mejor Valorados',
                 textAlign: TextAlign.left,
