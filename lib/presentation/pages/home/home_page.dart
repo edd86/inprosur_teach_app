@@ -6,6 +6,7 @@ import 'package:inprosur_teach_app/core/constants/app_routes.dart';
 import 'package:inprosur_teach_app/core/utils/utils.dart';
 import 'package:inprosur_teach_app/core/variables/global_variables.dart';
 import 'package:inprosur_teach_app/data/repositories/course_repository_impl.dart';
+import 'package:inprosur_teach_app/data/repositories/enrollment_repository_impl.dart';
 import 'package:inprosur_teach_app/presentation/pages/courses/course_page.dart';
 import 'package:inprosur_teach_app/presentation/pages/home/widgets/advertising_carousel.dart';
 import 'package:inprosur_teach_app/presentation/providers/auth_provider.dart';
@@ -96,161 +97,223 @@ class HomePage extends ConsumerWidget {
                     label: Text('3'),
                     child: Icon(Icons.notifications_none_rounded),
                   ),
+                  //TODO: add the notification page
                   onPressed: () {},
                 )
               : SizedBox(),
         ],
       ),
-      body: degreeAsync.when(
-        data: (degrees) => SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 25.h, child: AdvertisingCarousel()),
-              SizedBox(height: 2.5.h),
-              Text(
-                'Grados Académicos',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 1.h),
-              SizedBox(
-                height: 5.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: degrees.length,
-                  itemBuilder: (context, index) {
-                    final degree = degrees[index];
-                    return FadeIn(
-                      delay: Duration(seconds: index * 1),
-                      child: GestureDetector(
-                        child: OptionCard(text: degree.name),
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.searchPageByCategory,
-                          arguments: degree.id,
-                        ),
-                      ),
-                    );
-                  },
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.75.w),
+        child: degreeAsync.when(
+          data: (degrees) => SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 25.h, child: AdvertisingCarousel()),
+                SizedBox(height: 2.5.h),
+                Text(
+                  'Grados Académicos',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 1.5.h),
-              //TODO: complete the condition with enrrollments
-              (studentLogued != null)
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Mis Cursos',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.bold,
+                SizedBox(height: 1.h),
+                SizedBox(
+                  height: 5.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: degrees.length,
+                    itemBuilder: (context, index) {
+                      final degree = degrees[index];
+                      return FadeIn(
+                        delay: Duration(seconds: index * 1),
+                        child: GestureDetector(
+                          child: OptionCard(text: degree.name),
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            AppRoutes.searchPageByCategory,
+                            arguments: degree.id,
                           ),
                         ),
-                        SizedBox(height: 17.h, width: double.infinity),
-                      ],
-                    )
-                  : SizedBox(),
-              Text(
-                'Mejor Valorados',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 17.h,
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: CourseRepositoryImpl().getRankingCourses(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    }
-                    final courses = snapshot.data;
-                    if (courses == null || courses.isEmpty) {
-                      return Center(child: Text('No hay cursos disponibles'));
-                    }
-                    return ListView.builder(
-                      itemCount: courses.length,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final course = courses[index];
-                        return FadeInRight(
-                          delay: Duration(seconds: index * 1),
-                          child: InkWell(
-                            child: CoursesHomeCard(
-                              courseRanking: course,
-                              key: ValueKey(index),
-                            ),
-                            onTap: () {
-                              _navigateToCoursePage(context, course.id);
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              SizedBox(height: 1.5.h),
-              Text(
-                'Recien Agregados',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 17.h,
-                width: double.infinity,
-                child: FutureBuilder(
-                  future: CourseRepositoryImpl().getRecentCreated(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text('No se pudo cargar la información'),
                       );
-                    }
-                    final courses = snapshot.data;
-                    if (courses == null || courses.isEmpty) {
-                      return Center(child: Text('No hay cursos disponibles'));
-                    }
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: courses.length,
-                      itemBuilder: (context, index) {
-                        final course = courses[index];
-                        return FadeInRight(
-                          delay: Duration(seconds: index * 1),
-                          child: InkWell(
-                            child: CoursesHomeCard(
-                              courseEntity: course,
-                              key: ValueKey(index),
-                            ),
-                            onTap: () {
-                              _navigateToCoursePage(context, course.id!);
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 1.5.h),
+                (studentLogued != null)
+                    ? FutureBuilder(
+                        future: EnrollmentRepositoryImpl()
+                            .getStudentEnrolledCourses(studentLogued!.id!),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}'),
+                            );
+                          }
+                          if (snapshot.hasData) {
+                            final courses = snapshot.data;
+                            if (courses == null || courses.isEmpty) {
+                              return SizedBox();
+                            }
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Mis Cursos',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 17.h,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    itemCount: courses.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      final course = courses[index];
+                                      return FadeInRight(
+                                        delay: Duration(seconds: index * 1),
+                                        child: InkWell(
+                                          child: CoursesHomeCard(
+                                            courseEntity: course,
+                                            key: ValueKey(index),
+                                          ),
+                                          onTap: () {
+                                            _navigateToCoursePage(
+                                              context,
+                                              course.id!,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
+                      )
+                    : SizedBox(),
+                Text(
+                  'Mejor Valorados',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 17.h,
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: CourseRepositoryImpl().getRankingCourses(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      final courses = snapshot.data;
+                      if (courses == null || courses.isEmpty) {
+                        return Center(child: Text('No hay cursos disponibles'));
+                      }
+                      return ListView.builder(
+                        itemCount: courses.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final course = courses[index];
+                          return FadeInRight(
+                            delay: Duration(seconds: index * 1),
+                            child: InkWell(
+                              child: CoursesHomeCard(
+                                courseRanking: course,
+                                key: ValueKey(index),
+                              ),
+                              onTap: () {
+                                _navigateToCoursePage(context, course.id);
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 1.5.h),
+                Text(
+                  'Recien Agregados',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 17.h,
+                  width: double.infinity,
+                  child: FutureBuilder(
+                    future: CourseRepositoryImpl().getRecentCreated(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('No se pudo cargar la información'),
+                        );
+                      }
+                      final courses = snapshot.data;
+                      if (courses == null || courses.isEmpty) {
+                        return Center(child: Text('No hay cursos disponibles'));
+                      }
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: courses.length,
+                        itemBuilder: (context, index) {
+                          final course = courses[index];
+                          return FadeInRight(
+                            delay: Duration(seconds: index * 1),
+                            child: InkWell(
+                              child: CoursesHomeCard(
+                                courseEntity: course,
+                                key: ValueKey(index),
+                              ),
+                              onTap: () {
+                                _navigateToCoursePage(context, course.id!);
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
+          error: (error, _) {
+            return Center(child: const SizedBox());
+          },
+          loading: () => SizedBox.shrink(),
         ),
-        error: (error, _) {
-          return Center(child: const SizedBox());
-        },
-        loading: () => SizedBox.shrink(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
