@@ -29,14 +29,18 @@ class _PersonalRatingWidgetState extends ConsumerState<PersonalRatingWidget> {
             color: selectedStar >= index ? Colors.yellow : Colors.grey,
           ),
           onTap: () async {
-            final validateEnrollment = await StudentRepositoryImpl()
-                .studentEnrolledInCourse(studentLogued!.id!, widget.courseId);
-            if (studentLogued != null && validateEnrollment.data) {
-              setState(() {
-                selectedStar = index;
-              });
+            if (studentLogued != null) {
+              final validateEnrollment = await StudentRepositoryImpl()
+                  .studentEnrolledInCourse(studentLogued!.id!, widget.courseId);
+              if (validateEnrollment.data) {
+                setState(() {
+                  selectedStar = index;
+                });
+              } else {
+                _showWarning('No ha cursado este curso, no puede calificarlo');
+              }
             } else {
-              _showWarning('No ha cursado este curso, no puede calificarlo');
+              _showWarning('Inicie Sesión para calificar');
             }
           },
         );

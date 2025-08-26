@@ -136,7 +136,7 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                               Text(
                                 courseDetails.instructor.name,
                                 style: TextStyle(
-                                  fontSize: 13.5.sp,
+                                  fontSize: 13.75.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -146,8 +146,8 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                                   courseDetails.instructor.biography,
                                   style: TextStyle(
                                     fontSize: size.width > 600
-                                        ? 12.5.sp
-                                        : 11.5.sp,
+                                        ? 12.75.sp
+                                        : 11.75.sp,
                                   ),
                                   maxLines: null,
                                   overflow: TextOverflow.fade,
