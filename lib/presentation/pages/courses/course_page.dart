@@ -42,21 +42,6 @@ class _CoursePageState extends ConsumerState<CoursePage> {
               Image.network(
                 courseDetails.thumbnailUrl,
                 height: 20.h,
-                loadingBuilder: (context, child, loadingProgress) =>
-                    loadingProgress == null
-                    ? Container(
-                        height: 20.h,
-                        width: 100.w,
-                        color: Colors.grey.shade300,
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      ),
                 errorBuilder: (context, error, stackTrace) {
                   return Image.asset('assets/imgs/error_horizontal.png');
                 },
