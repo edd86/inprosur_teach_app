@@ -36,7 +36,7 @@ class _BuyPageState extends ConsumerState<BuyPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    '${courseDetails.price} \$',
+                    '${courseDetails.price} bs.',
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
