@@ -114,6 +114,7 @@ class _SearchPageByCategoryState extends ConsumerState<SearchPageByCategory> {
                 },
               ),
             ),
+            SizedBox(height: .75.h),
             Expanded(
               child: FutureBuilder(
                 future: SearchRepositoryImpl().searchContentByCategory(
