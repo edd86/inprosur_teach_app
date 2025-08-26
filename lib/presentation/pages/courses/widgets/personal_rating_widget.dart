@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inprosur_teach_app/core/variables/global_variables.dart';
-import 'package:inprosur_teach_app/data/repositories/student_repository_impl.dart';
+import 'package:inprosur_teach_app/data/repositories/enrollment_repository_impl.dart';
 import 'package:inprosur_teach_app/presentation/widgets/warning_dialog.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,7 +30,7 @@ class _PersonalRatingWidgetState extends ConsumerState<PersonalRatingWidget> {
           ),
           onTap: () async {
             if (studentLogued != null) {
-              final validateEnrollment = await StudentRepositoryImpl()
+              final validateEnrollment = await EnrollmentRepositoryImpl()
                   .studentEnrolledInCourse(studentLogued!.id!, widget.courseId);
               if (validateEnrollment.data) {
                 setState(() {

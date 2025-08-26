@@ -39,7 +39,28 @@ class _CoursePageState extends ConsumerState<CoursePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.network(courseDetails.thumbnailUrl, height: 20.h),
+              Image.network(
+                courseDetails.thumbnailUrl,
+                height: 20.h,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    loadingProgress == null
+                    ? Container(
+                        height: 20.h,
+                        width: 100.w,
+                        color: Colors.grey.shade300,
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('assets/imgs/error_horizontal.png');
+                },
+              ),
               SizedBox(height: 0.5.h),
               SizedBox(
                 width: 100.w,
@@ -123,7 +144,14 @@ class _CoursePageState extends ConsumerState<CoursePage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50.sp),
-                        child: Image.network(courseDetails.photoInstructor),
+                        child: Image.network(
+                          courseDetails.photoInstructor,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/error_thumbnail.png',
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         width: 60.w,
