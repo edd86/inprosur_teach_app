@@ -40,4 +40,4 @@ flutter:
     - .env
     - assets/imgs/
     - assets/svg/
-    - assets/fonts/
+    - assets/fonts/Comfortaa-VariableFont_wght.ttf
