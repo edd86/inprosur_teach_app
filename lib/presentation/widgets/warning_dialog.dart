@@ -10,12 +10,12 @@ class WarningDialog extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.warning_amber_outlined),
           Text(
             'Advertencia',
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.w700),
           ),
+          Icon(Icons.warning_amber_outlined),
         ],
       ),
       content: Text(message),
