@@ -58,7 +58,10 @@ class HomePage extends ConsumerWidget {
                             child: ListTile(
                               leading: Icon(Icons.settings),
                               title: Text('Configuración'),
-                              onTap: () {},
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                AppRoutes.configPage,
+                              ),
                             ),
                           ),
                           PopupMenuItem(
